@@ -6,9 +6,9 @@ export class AppController {
   // constructor(private readonly appService: AppService) {}
 
   @Get()
-  @Render('index')
+  @Render('home')
   root() {
-    return { message: 'Does it reload by itself? (No)' };
+    return { message: 'Does it reload by itself? (No)', other: 'Other' };
   }
 
   // getHello(): string {
