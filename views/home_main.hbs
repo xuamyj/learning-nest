@@ -1,0 +1,22 @@
+<h2> 
+    Kind habits: Home
+</h2>
+<div>
+    {{#each boards}}
+    <div>
+        <h3>
+            {{this.board_name}} (<em>board_id</em> <strong>{{this.id}}</strong>)
+        </h3>
+        <ul>
+            <li>Board description: {{this.board_description}}</li>
+            <li>Board done color: {{this.board_done_color}}</li>
+            <li><a href="/edit_board/{{this.id}}">Edit habit info</a></li>
+            <li><a href="/todo">Mark done</a></li>
+            <li><a href="/todo">Mark undone</a></li>
+        </ul>
+    </div>
+    {{/each}}
+</div>
+<div>
+    <a href="/create_board">Create a habit</a>
+</div>

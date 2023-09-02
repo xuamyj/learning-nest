@@ -1,0 +1,21 @@
+<h2> 
+    Kind habits: Calendar
+</h2>
+<div>
+    {{#each boards}}
+    <div>
+        <h3>
+            {{this.board_name}} (<em>board_id</em> <strong>{{this.id}}</strong>)
+        </h3>
+        <ul>
+            {{#each this.board_days}}
+            <li>
+                {{this.year_month_day}} (<em>board_day_id</em> <strong>{{this.id}}</strong>): 
+                Done = {{this.done_today}}, 
+                <a href="/view_board_day/{{this.id}}">View day</a>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/each}}
+</div>

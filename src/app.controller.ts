@@ -1,20 +1,62 @@
 import { Get, Controller, Render, Param } from '@nestjs/common';
-// import { AppService } from './app.service';
+import { AppService } from './app.service';
+
+@Controller('home')
+export class HomeController {
+  constructor(private appService: AppService) {}
+
+  @Get()
+  @Render('home_main')
+  root() {
+    return { boards: this.appService.getAllBoards() };
+  }
+}
+
+@Controller('calendar')
+export class CalendarController {
+  constructor(private appService: AppService) {}
+
+  @Get()
+  @Render('calendar_main')
+  root() {
+    return { boards: this.appService.getAllBoardsWithBoardDays() };
+  }
+}
+
+@Controller('profile')
+export class ProfileController {
+  constructor(private appService: AppService) {}
+
+  @Get()
+  @Render('profile_main')
+  root() {
+    return { user_id: this.appService.getUserId() };
+  }
+}
 
 @Controller()
 export class AppController {
-  // constructor(private readonly appService: AppService) {}
+  constructor(private appService: AppService) {}
 
   @Get()
-  @Render('home')
+  @Render('index')
   root() {
-    return { message: 'Does it reload by itself? (No)', other: 'Other' };
+    return { message: 'Welcome.' };
   }
-
-  // getHello(): string {
-  //   return this.appService.getHello();
-  // }
 }
+
+@Controller('todo')
+export class TodoController {
+  constructor(private appService: AppService) {}
+
+  @Get()
+  @Render('todo')
+  root() {
+    return { };
+  }
+}
+
+// ----
 
 @Controller('cats')
 export class CatsController {
