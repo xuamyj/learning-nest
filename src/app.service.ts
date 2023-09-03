@@ -1,4 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { cloneDeep } from 'lodash';
+
+type BoardType = {
+  id: number,
+  board_name: string,
+  board_description?: string,
+  board_done_color: string,
+  board_accent_colors: string[],
+  user_id: string,
+}
+
+type BoardDayType = {
+  id: number,
+  year_month_day: string,
+  done_today: boolean,
+  color_not_done_index?: number,
+  notes?: string,
+  board_id: number,
+}
 
 @Injectable()
 export class AppService {
@@ -9,7 +28,7 @@ export class AppService {
   FAKE_BOARD_ID_2 = 2
   FAKE_BOARD_ID_3 = 3
 
-  FAKE_USER_DATA = {
+  FAKE_USER_DATA: { boards: BoardType[], board_days: BoardDayType[] } = {
     'boards': [
       {
         'id': 1,
@@ -36,6 +55,7 @@ export class AppService {
         'user_id': this.FAKE_USER_ID,
       },
     ],
+
     'board_days': [
       // BOARD 2
       {
@@ -99,7 +119,7 @@ export class AppService {
         'id': 305,
         'year_month_day': '20230830', // Filled in Aug 30
         'done_today': false,
-        'color_not_done': 0,
+        'color_not_done_index': 0,
         'notes': undefined,
         'board_id': this.FAKE_BOARD_ID_3,
       },
@@ -107,17 +127,16 @@ export class AppService {
         'id': 306,
         'year_month_day': '20230822', // Filled in Aug 22 for fun
         'done_today': false,
-        'color_not_done': 1,
+        'color_not_done_index': 1,
         'notes': 'I guess I can add notes if not done, too',
         'board_id': this.FAKE_BOARD_ID_3,
       },
-    ]
+    ] 
   }
 
   // Helper functions
   // ---------
-
-  todaysYearMonthDay({yearMonthOnly = false}): string {
+  private todaysYearMonthDay({yearMonthOnly = false}): string {
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0')
@@ -139,17 +158,17 @@ export class AppService {
     return this.FAKE_USER_ID;
   }
 
-  getAllBoards(): Object {
-    return this.FAKE_USER_DATA['boards'];
+  getAllBoards() {
+    return cloneDeep(this.FAKE_USER_DATA['boards']);
   }
 
-  getBoardDays(board_id): Object {
-    const board_days_result = [];
+  private getBoardDays(board_id) {
+    const board_days_result: BoardDayType[] = [];
 
     const all_board_days = this.FAKE_USER_DATA['board_days'];
     for (const day of all_board_days) {
       if (day.board_id === board_id) {
-        board_days_result.push(day);
+        board_days_result.push(cloneDeep(day));
       }
     }
 
@@ -157,8 +176,8 @@ export class AppService {
     return board_days_result;
   }
 
-  getAllBoardsWithBoardDays(): Object {
-    const boards_copy = JSON.parse(JSON.stringify(this.FAKE_USER_DATA['boards'])); // :D 4120475
+  getAllBoardsWithBoardDays() {
+    const boards_copy = cloneDeep(this.FAKE_USER_DATA['boards']); // :D 4120475
 
     for (const board of boards_copy) {
       board['board_days'] = this.getBoardDays(board.id);
