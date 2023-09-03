@@ -1,1 +1,31 @@
-Test test
+<h2>
+    Kind habits: Create board for <em>user_id</em> <strong>{{user_id}}</strong>
+</h2>
+
+<form action="/create_board/{{user_id}}" method="post"> 
+    <label for="name">Board name:</label> 
+    <input type="text" id="name" name="board_name" required>
+    <br><br>
+
+    <label for="description">[Optional] Board description:</label>
+    <input type="text" id="description" name="board_description">
+    <br><br>
+
+    <label for="done_color">"Done" color theme:</label>
+    <select id="done_color" name="board_done_color" required>
+        <option value="#2B3A67" selected>Blue and sand (default)</option>
+        <option value="#344E41">Greens</option>
+        <option value="#3C3371">Purples</option>
+    </select>
+    <br><br>
+
+    <label for="accent_colors">"Not done" color theme:</label>
+    <select id="accent_colors" name="board_accent_colors" required>
+        <option value="['#89AFD2', '#FFF8F0', '#F4D06F', '#FFC081']" selected>Blue and sand (default)</option>
+        <option value="['#588157', '#7E9971', '#A3B18A', '#DAD7CD']">Greens</option>
+        <option value="['#7C6997', '#BDA0BC', '#C3D2D5', '#AFBDC0']">Purples</option>
+    </select>
+    <br><br>
+
+    <input type="submit"> 
+</form>

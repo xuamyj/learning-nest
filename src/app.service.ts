@@ -15,7 +15,7 @@ type BoardDayType = {
   year_month_day: string,
   done_today: boolean,
   color_not_done_index?: number,
-  notes?: string,
+  day_notes?: string
   board_id: number,
 }
 
@@ -63,7 +63,7 @@ export class AppService {
         'year_month_day': '20230823', // Aug 23
         'done_today': true,
         'color_not_done_index': 2,
-        'notes': '',
+        'day_notes': '',
         'board_id': this.FAKE_BOARD_ID_2,
       },
       {
@@ -71,7 +71,7 @@ export class AppService {
         'year_month_day': '20230825', // Aug 25
         'done_today': true,
         'color_not_done_index': undefined,
-        'notes': '',
+        'day_notes': '',
         'board_id': this.FAKE_BOARD_ID_2,
       },
       {
@@ -79,7 +79,7 @@ export class AppService {
         'year_month_day': '20230901', // Sept 1
         'done_today': true,
         'color_not_done_index': undefined,
-        'notes': undefined,
+        'day_notes': undefined,
         'board_id': this.FAKE_BOARD_ID_2,
       },
       // BOARD 3
@@ -88,7 +88,7 @@ export class AppService {
         'year_month_day': '20230829', // Aug 29
         'done_today': true,
         'color_not_done_index': undefined,
-        'notes': 'Tired',
+        'day_notes': 'Tired',
         'board_id': this.FAKE_BOARD_ID_3,
       },
       {
@@ -96,7 +96,7 @@ export class AppService {
         'year_month_day': '20230831', // missed a day, so now Aug 31
         'done_today': true,
         'color_not_done_index': undefined,
-        'notes': undefined,
+        'day_notes': undefined,
         'board_id': this.FAKE_BOARD_ID_3,
       },
       {
@@ -104,7 +104,7 @@ export class AppService {
         'year_month_day': '20230901', // Sept 1
         'done_today': true,
         'color_not_done_index': undefined,
-        'notes': undefined,
+        'day_notes': undefined,
         'board_id': this.FAKE_BOARD_ID_3,
       },
       {
@@ -112,7 +112,7 @@ export class AppService {
         'year_month_day': '20230903', // 'today', Sept 3
         'done_today': true,
         'color_not_done_index': 3,
-        'notes': 'Feeling good',
+        'day_notes': 'Feeling good',
         'board_id': this.FAKE_BOARD_ID_3,
       },
       {
@@ -120,7 +120,7 @@ export class AppService {
         'year_month_day': '20230830', // Filled in Aug 30
         'done_today': false,
         'color_not_done_index': 0,
-        'notes': undefined,
+        'day_notes': undefined,
         'board_id': this.FAKE_BOARD_ID_3,
       },
       {
@@ -128,7 +128,7 @@ export class AppService {
         'year_month_day': '20230822', // Filled in Aug 22 for fun
         'done_today': false,
         'color_not_done_index': 1,
-        'notes': 'I guess I can add notes if not done, too',
+        'day_notes': 'I guess I can add notes if not done, too',
         'board_id': this.FAKE_BOARD_ID_3,
       },
     ] 
@@ -136,6 +136,7 @@ export class AppService {
 
   // Helper functions
   // ---------
+  
   private todaysYearMonthDay({yearMonthOnly = false}): string {
     const today = new Date();
     const year = today.getFullYear();
@@ -162,6 +163,32 @@ export class AppService {
   //   return cloneDeep(this.FAKE_USER_DATA['boards']);
   // }
 
+  getBoardById(board_id: number) {
+    let board_result: BoardType = undefined;
+
+    const all_boards = this.FAKE_USER_DATA['boards'];
+    for (const board of all_boards) {
+      if (board.id === board_id) {
+        board_result = cloneDeep(board);
+      }
+    }
+    // console.log(`\n\n board_result: ${JSON.stringify(board_result)}`)
+    return board_result;
+  }
+
+  getDayById(day_id: number) {
+    let day_result: BoardDayType = undefined;
+
+    const all_board_days = this.FAKE_USER_DATA['board_days'];
+    for (const day of all_board_days) {
+      if (day.id === day_id) {
+        day_result = cloneDeep(day);
+      }
+    }
+    // console.log(`\n\n day_result: ${JSON.stringify(day_result)}`)
+    return day_result;
+  }
+
   private getIsDoneToday(board_id: number) {
     const today = this.todaysYearMonthDay({yearMonthOnly: false}); // todo? 
     const done_holder: BoardDayType[] = [];
@@ -172,7 +199,6 @@ export class AppService {
         done_holder.push(cloneDeep(day));
       }
     }
-
     // console.log(`\n\n done_holder: ${JSON.stringify(done_holder)}`)
     return (done_holder.length !== 0);
   }
@@ -183,7 +209,6 @@ export class AppService {
     for (const board of boards_copy) {
       board['done_today'] = this.getIsDoneToday(board.id);
     }
-
     // console.log(`\n\n boards_copy: ${JSON.stringify(boards_copy)}`)
     return boards_copy;
   }
@@ -197,7 +222,6 @@ export class AppService {
         board_days_result.push(cloneDeep(day));
       }
     }
-
     // console.log(`\n\n board_days_result: ${JSON.stringify(board_days_result)}`)
     return board_days_result;
   }
@@ -208,23 +232,8 @@ export class AppService {
     for (const board of boards_copy) {
       board['board_days'] = this.getBoardDays(board.id);
     }
-
     // console.log(`\n\n boards_copy: ${JSON.stringify(boards_copy)}`)
     return boards_copy;
-  }
-
-  private getBoardById(board_id: number) {
-    let board_result: BoardType = undefined;
-
-    const all_boards = this.FAKE_USER_DATA['boards'];
-    for (const board of all_boards) {
-      if (board.id === board_id) {
-        board_result = cloneDeep(board);
-      }
-    }
-
-    // console.log(`\n\n board_result: ${JSON.stringify(board_result)}`)
-    return board_result;
   }
 
   getBoardWithBoardDays(board_id: number) {

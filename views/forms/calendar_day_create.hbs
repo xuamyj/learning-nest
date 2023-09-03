@@ -1,0 +1,28 @@
+<h2>
+    Kind habits: Create day for <em>board_id</em> <strong>{{board_id}}</strong>
+</h2>
+
+<form action="/create_day/{{board_id}}" method="post"> 
+    <label for="day">Date:</label>
+    <input type="date" id="day" name="year_month_day" value="2023-09-03" min="2022-01-01" max="2023-12-31" />
+    <br><br>
+    
+    <label for="done">Done?</label>
+    <input type="checkbox" id="done" name="done_today" value="true"> 
+    <br><br>
+
+    <label for="color">Color if not done:</label>
+    <select id="color" name="color_not_done_index" required>
+        <option value="0" selected>Index 0 (default)</option>
+        <option value="1">Index 1</option>
+        <option value="2">Index 2</option>
+        <option value="3">Index 3</option>
+    </select>
+    <br><br>
+
+    <label for="notes">[Optional] Notes:</label>
+    <input type="text" id="notes" name="day_notes">
+    <br><br>
+
+    <input type="submit"> 
+</form>

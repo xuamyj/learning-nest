@@ -1,0 +1,38 @@
+<h2>
+    Kind habits: Edit board for <em>board_id</em> <strong>{{board.id}}</strong>
+</h2>
+
+<form action="/edit_board/{{board.id}}" method="post"> 
+    <label for="name">Board name:</label> 
+    <input type="text" id="name" name="board_name" value="{{board.board_name}}" required>
+    <br><br>
+
+    <label for="description">[Optional] Board description:</label>
+    <input type="text" id="description" name="board_description" value="{{board.board_description}}">
+    <br><br>
+
+    <label for="done_color">"Done" color theme:</label>
+    <select id="done_color" name="board_done_color" required>
+        <option value="{{board.board_done_color}}" selected>(Keep the same color)</option>
+        <option value="#2B3A67">Blue and sand</option>
+        <option value="#344E41">Greens</option>
+        <option value="#3C3371">Purples</option>
+    </select>
+    <br><br>
+
+    <label for="accent_colors">"Not done" color theme:</label>
+    <select id="accent_colors" name="board_accent_colors" required>
+        <option value="{{board.board_accent_colors}}" selected>(Keep the same color)</option>
+        <option value="['#89AFD2', '#FFF8F0', '#F4D06F', '#FFC081']">Blue and sand</option>
+        <option value="['#588157', '#7E9971', '#A3B18A', '#DAD7CD']">Greens</option>
+        <option value="['#7C6997', '#BDA0BC', '#C3D2D5', '#AFBDC0']">Purples</option>
+    </select>
+    <br><br>
+
+    <input type="submit" value="Save Changes"> 
+</form>
+
+<div>
+    <h4>--</h4>
+    <a href="/delete_board/{{board.id}}">Delete this board?</a>
+</div>

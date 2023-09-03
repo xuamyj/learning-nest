@@ -12,7 +12,7 @@
             <ul>
                 <li>Done = {{this.done_today}}</li>
                 <li>Color not done index: {{this.color_not_done_index}}</li>
-                <li>Notes: {{this.notes}}</li>
+                <li>Notes: {{this.day_notes}}</li>
                 <li><a href="/edit_day/{{this.id}}">Edit this day</a></li>
             </ul>
             <br>
@@ -25,5 +25,5 @@
 </div>
 
 <div>
-    <a href="/create_day">Edit some other day</a>
+    <a href="/create_day/{{board.id}}">Add log for some other day</a>
 </div>
