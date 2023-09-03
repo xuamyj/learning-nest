@@ -109,7 +109,7 @@ export class AppService {
       },
       {
         'id': 304,
-        'year_month_day': '20230902', // 'today', Sept 2
+        'year_month_day': '20230903', // 'today', Sept 3
         'done_today': true,
         'color_not_done_index': 3,
         'notes': 'Feeling good',
@@ -158,11 +158,37 @@ export class AppService {
     return this.FAKE_USER_ID;
   }
 
-  getAllBoards() {
-    return cloneDeep(this.FAKE_USER_DATA['boards']);
+  // getAllBoards() {
+  //   return cloneDeep(this.FAKE_USER_DATA['boards']);
+  // }
+
+  private getIsDoneToday(board_id: number) {
+    const today = this.todaysYearMonthDay({yearMonthOnly: false}); // todo? 
+    const done_holder: BoardDayType[] = [];
+
+    const all_board_days = this.FAKE_USER_DATA['board_days'];
+    for (const day of all_board_days) {
+      if (day.board_id === board_id && day.year_month_day === today && day.done_today) {
+        done_holder.push(cloneDeep(day));
+      }
+    }
+
+    // console.log(`\n\n done_holder: ${JSON.stringify(done_holder)}`)
+    return (done_holder.length !== 0);
   }
 
-  private getBoardDays(board_id) {
+  getAllBoardsWithDoneToday() {
+    const boards_copy = cloneDeep(this.FAKE_USER_DATA['boards']);
+
+    for (const board of boards_copy) {
+      board['done_today'] = this.getIsDoneToday(board.id);
+    }
+
+    // console.log(`\n\n boards_copy: ${JSON.stringify(boards_copy)}`)
+    return boards_copy;
+  }
+
+  private getBoardDays(board_id: number) {
     const board_days_result: BoardDayType[] = [];
 
     const all_board_days = this.FAKE_USER_DATA['board_days'];
@@ -177,7 +203,7 @@ export class AppService {
   }
 
   getAllBoardsWithBoardDays() {
-    const boards_copy = cloneDeep(this.FAKE_USER_DATA['boards']); // :D 4120475
+    const boards_copy = cloneDeep(this.FAKE_USER_DATA['boards']);
 
     for (const board of boards_copy) {
       board['board_days'] = this.getBoardDays(board.id);
@@ -185,6 +211,28 @@ export class AppService {
 
     // console.log(`\n\n boards_copy: ${JSON.stringify(boards_copy)}`)
     return boards_copy;
+  }
+
+  private getBoardById(board_id: number) {
+    let board_result: BoardType = undefined;
+
+    const all_boards = this.FAKE_USER_DATA['boards'];
+    for (const board of all_boards) {
+      if (board.id === board_id) {
+        board_result = cloneDeep(board);
+      }
+    }
+
+    // console.log(`\n\n board_result: ${JSON.stringify(board_result)}`)
+    return board_result;
+  }
+
+  getBoardWithBoardDays(board_id: number) {
+    const board = this.getBoardById(board_id);
+    board['board_days'] = this.getBoardDays(board_id);
+
+    // console.log(`\n\n board: ${JSON.stringify(board)}`)
+    return board;
   }
   
 }

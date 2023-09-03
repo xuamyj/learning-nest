@@ -10,9 +10,15 @@
         <ul>
             <li>Board description: {{this.board_description}}</li>
             <li>Board done color: {{this.board_done_color}}</li>
+            <li>Done today = {{this.done_today}}</li>
             <li><a href="/edit_board/{{this.id}}">Edit habit info</a></li>
-            <li><a href="/todo">Mark done</a></li>
-            <li><a href="/todo">Mark undone</a></li>
+
+            {{#if this.done_today}}
+            <li> (TODO: remember notes) <a href="/todo">Mark undone</a></li>
+            {{else}}
+            <li> (TODO: remember notes) <a href="/todo">Mark done</a></li>
+            {{/if}}
+
         </ul>
     </div>
     {{/each}}

@@ -8,7 +8,7 @@ export class HomeController {
   @Get()
   @Render('home_main')
   root() {
-    return { boards: this.appService.getAllBoards() };
+    return { boards: this.appService.getAllBoardsWithDoneToday() };
   }
 }
 
@@ -20,6 +20,13 @@ export class CalendarController {
   @Render('calendar_main')
   root() {
     return { boards: this.appService.getAllBoardsWithBoardDays() };
+  }
+
+  @Get(':id')
+  @Render('calendar_detail')
+  findOne(@Param() params: any) {
+    console.log(`/calendar/:id params.id: ${params.id}`);
+    return { board: this.appService.getBoardWithBoardDays(parseInt(params.id)) };
   }
 }
 

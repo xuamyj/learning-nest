@@ -1,0 +1,29 @@
+<h3>
+    {{board.board_name}} (<em>board_id</em> <strong>{{board.id}}</strong>)
+</h3>
+
+<div>
+    Preview: 
+    {{#if board.board_days}}
+    <ul>
+        {{#each board.board_days}}
+        <li>
+            {{this.year_month_day}} (<em>board_day_id</em> <strong>{{this.id}}</strong>)
+            <ul>
+                <li>Done = {{this.done_today}}</li>
+                <li>Color not done index: {{this.color_not_done_index}}</li>
+                <li>Notes: {{this.notes}}</li>
+                <li><a href="/edit_day/{{this.id}}">Edit this day</a></li>
+            </ul>
+            <br>
+        </li>
+        {{/each}}
+    </ul>
+    {{else}}
+    No days logged
+    {{/if}}
+</div>
+
+<div>
+    <a href="/create_day">Edit some other day</a>
+</div>

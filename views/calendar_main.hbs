@@ -6,16 +6,24 @@
     <div>
         <h3>
             {{this.board_name}} (<em>board_id</em> <strong>{{this.id}}</strong>)
+            <a href="/calendar/{{this.id}}">View full calendar</a>
         </h3>
-        <ul>
-            {{#each this.board_days}}
-            <li>
-                {{this.year_month_day}} (<em>board_day_id</em> <strong>{{this.id}}</strong>): 
-                Done = {{this.done_today}}, 
-                <a href="/view_board_day/{{this.id}}">View day</a>
-            </li>
-            {{/each}}
-        </ul>
+
+        <div>
+            Preview: 
+            {{#if this.board_days}}
+            <ul>
+                {{#each this.board_days}}
+                <li>
+                    {{this.year_month_day}} (<em>board_day_id</em> <strong>{{this.id}}</strong>): 
+                    Done = {{this.done_today}}
+                </li>
+                {{/each}}
+            </ul>
+            {{else}}
+            No days logged
+            {{/if}}
+        </div>
     </div>
     {{/each}}
 </div>
